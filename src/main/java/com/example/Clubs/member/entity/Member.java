@@ -4,8 +4,6 @@ import com.example.Clubs.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @Builder

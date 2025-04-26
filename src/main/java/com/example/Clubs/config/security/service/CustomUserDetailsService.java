@@ -26,10 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // UserDetails 객체를 반환 (Spring Security가 요구하는 형태)
         return User.builder()
-<<<<<<< HEAD
                 .id(member.getId())
-=======
->>>>>>> 2a544260be794e6ce5495630339a93b366beaf2a
                 .email(member.getEmail())
                 .password(member.getPassword()) // 비밀번호는 암호화된 상태여야 함
                 .role(User.Role.USER) // 권한 부여

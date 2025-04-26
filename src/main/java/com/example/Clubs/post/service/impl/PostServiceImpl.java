@@ -7,6 +7,8 @@ import com.example.Clubs.post.dto.request.CreatePostRequest;
 import com.example.Clubs.post.dto.request.UpdatePostReqeust;
 import com.example.Clubs.post.dto.response.GetPostResponse;
 import com.example.Clubs.post.entity.Post;
+import com.example.Clubs.post.exception.PostErrorCode;
+import com.example.Clubs.post.exception.PostException;
 import com.example.Clubs.post.repository.PostRepository;
 import com.example.Clubs.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +41,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public void updatePost(long postId, UpdatePostReqeust reqeust) {
-
+        Post findPost = findPost(postId);
+        Post.updatePost(findPost,reqeust);
     }
 
     @Override
@@ -52,6 +56,6 @@ public class PostServiceImpl implements PostService {
 
     private Post findPost(long postId){
         return postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("post not found"));
+                .orElseThrow(() -> new PostException(PostErrorCode.POST_NOTFOUND_ERROR));
     }
 }

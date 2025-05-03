@@ -1,5 +1,6 @@
 package com.example.Clubs.config.security.entity;
 
+import com.example.Clubs.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,12 +11,9 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Getter
-@Entity
 @Builder
 @AllArgsConstructor
-@Table(name = "users")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,6 +27,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role; // 권한 (예: USER, ADMIN)
+
+    private Member member;
 
     // 기본 생성자
     public User() {}

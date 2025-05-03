@@ -30,6 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .email(member.getEmail())
                 .password(member.getPassword()) // 비밀번호는 암호화된 상태여야 함
                 .role(User.Role.USER) // 권한 부여
+                .member(member)
                 .build();
     }
 }

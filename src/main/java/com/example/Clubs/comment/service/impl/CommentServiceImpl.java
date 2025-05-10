@@ -1,9 +1,12 @@
 package com.example.Clubs.comment.service.impl;
 
-import com.example.Clubs.comment.dto.GetCommentRequest;
-import com.example.Clubs.comment.dto.UpdateCommentRequest;
+import com.example.Clubs.comment.dto.request.GetCommentRequest;
+import com.example.Clubs.comment.dto.request.UpdateCommentRequest;
 import com.example.Clubs.comment.dto.request.CreateCommentRequest;
 import com.example.Clubs.comment.entity.Comment;
+import com.example.Clubs.comment.entity.CommentType;
+import com.example.Clubs.comment.exception.CommentErrorCode;
+import com.example.Clubs.comment.exception.CommentException;
 import com.example.Clubs.comment.repository.CommentRepository;
 import com.example.Clubs.comment.service.CommentService;
 import com.example.Clubs.config.security.entity.User;
@@ -24,19 +27,26 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
 
     @Override
-    public void createComment(CreateCommentRequest request) {
-        // var a = member.getMember();
-        //Comment comment = request.toEntity();
+    @Transactional
+    public void createComment(CreateCommentRequest request, @AuthenticationPrincipal User member) {
+        Comment newComment = request.toEntity(member);
+
+        commentRepository.save(newComment);
     }
 
     @Override
     public Comment getComment(long commentId) {
-        return null;
+        return findComment(commentId);
+    }
+
+    @Override
+    public Comment getCommentByCommentType(long commnetId, CommentType commentType) {
+        return findCommentByCommentType(commnetId, commentType);
     }
 
     @Override
     public List<Comment> getComments(GetCommentRequest request) {
-        return List.of();
+        return commentRepository.findByTargetAndType(request.getTarget(), request.getType());
     }
 
     @Override
@@ -47,5 +57,15 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(long commentId, Member member) {
 
+    }
+
+    private Comment findComment(long commetId){
+        return commentRepository.findById(commetId)
+                .orElseThrow(() -> new CommentException(CommentErrorCode.COMMENT_NOTFOUND_ERROR));
+    }
+
+    private Comment findCommentByCommentType(long commetId, CommentType commentType){
+        return commentRepository.findByIdAndType(commetId,commentType)
+                .orElseThrow(() -> new CommentException(CommentErrorCode.COMMENT_NOTFOUND_ERROR));
     }
 }

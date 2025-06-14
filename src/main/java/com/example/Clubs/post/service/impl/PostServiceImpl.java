@@ -9,6 +9,7 @@ import com.example.Clubs.post.dto.response.GetPostResponse;
 import com.example.Clubs.post.entity.Post;
 import com.example.Clubs.post.exception.PostErrorCode;
 import com.example.Clubs.post.exception.PostException;
+import com.example.Clubs.post.mapper.PostMapper;
 import com.example.Clubs.post.repository.PostRepository;
 import com.example.Clubs.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
+    private final PostMapper postMapper;
 
     @Override
     @Transactional
@@ -36,8 +38,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public GetPostResponse getPost(long postId) {
-        Post findPost = findPost(postId);
-        return GetPostResponse.from(findPost);
+//        Post findPost = findPost(postId);
+        return postMapper.getPost(postId);
     }
 
     @Override

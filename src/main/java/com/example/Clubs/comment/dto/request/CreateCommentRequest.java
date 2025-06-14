@@ -22,8 +22,9 @@ public class CreateCommentRequest {
 
     private Long parent;
 
-    public Comment toEntity(User member) {
+    public Comment toEntity(long commentId,User member) {
         return Comment.builder()
+                .id(commentId)
                 .content(content)
                 .member(member.getMember())
                 .type(type)

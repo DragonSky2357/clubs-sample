@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.Clubs.post.mapper.PostMapper">
+
+    <select id="getPost" parameterType="long" resultType="com.example.Clubs.post.dto.response.GetPostResponse">
+        SELECT p.id       AS postId    <!-- 게시물ID -->
+             , p.title    AS title     <!-- 제목 -->
+             , p.content  AS content   <!-- 내용 -->
+             , m.username AS writer    <!-- 작성자 -->
+          FROM post p
+         INNER JOIN member m ON p.member_id = m.id
+         WHERE p.id = #{postId}
+    </select>
+
+</mapper>

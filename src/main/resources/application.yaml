@@ -13,5 +13,18 @@ spring:
 jwt:
   secret-key: "U3VwZXJTZWNyZXRLZXlGb3JITUFDMjU2"
   refresh-secret-key: "UmVmcmVzaFNlY3JldEtleUZvckhTQTI1Ng=="
-  access-token-expiration: 900000  # 15분 (밀리초)
-  refresh-token-expiration: 604800000  # 7일 (밀리초)
+  access-token-expiration: 90000000  # 15분 (밀리초)
+  refresh-token-expiration: 60480000000  # 7일 (밀리초)
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.example.clubs.*
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    org.mybatis: DEBUG
+    org.mybatis.spring.SqlSessionTemplate: DEBUG
+    org.apache.ibatis: DEBUG
+    com.example.Clubs: DEBUG  # ← 본인 프로젝트 패키지에 맞게

@@ -29,14 +29,16 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public void createComment(CreateCommentRequest request, @AuthenticationPrincipal User member) {
-        Comment newComment = request.toEntity(member);
+        long commentId = commentRepository.generateId(request.getType().name());
+        Comment newComment = request.toEntity(commentId, member);
 
         commentRepository.save(newComment);
     }
 
     @Override
-    public Comment getComment(long commentId) {
-        return findComment(commentId);
+    public Comment getComment(CommentType commentType, long targetId, long commentId) {
+        return commentRepository.findByTypeAndTargetAndId(commentType, targetId, commentId)
+                .orElseThrow(null);
     }
 
     @Override

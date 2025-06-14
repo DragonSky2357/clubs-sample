@@ -13,7 +13,7 @@ import java.util.List;
 public interface CommentService {
     void createComment(CreateCommentRequest request, User member);
 
-    Comment getComment(long commentId);
+    Comment getComment(CommentType commentType, long targetId, long commentId);
 
     Comment getCommentByCommentType(long commnetId, CommentType commentType);
 

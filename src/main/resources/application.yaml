@@ -7,9 +7,9 @@ spring:
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
 jwt:
   secret-key: "U3VwZXJTZWNyZXRLZXlGb3JITUFDMjU2"
   refresh-secret-key: "UmVmcmVzaFNlY3JldEtleUZvckhTQTI1Ng=="
@@ -24,6 +24,8 @@ mybatis:
 
 logging:
   level:
+#    org.hibernate.SQL: debug
+#    org.hibernate.type.descriptor.sql.BasicBinder: trace
     org.mybatis: DEBUG
     org.mybatis.spring.SqlSessionTemplate: DEBUG
     org.apache.ibatis: DEBUG

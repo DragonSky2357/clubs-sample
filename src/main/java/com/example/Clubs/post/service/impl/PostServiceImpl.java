@@ -40,6 +40,8 @@ public class PostServiceImpl implements PostService {
     public GetPostResponse getPost(long postId) {
 //        Post findPost = findPost(postId);
         return postMapper.getPost(postId);
+//        return GetPostResponse.from(findPost);
+//        return postMapper.getPost(postId);
     }
 
     @Override

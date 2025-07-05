@@ -18,6 +18,7 @@ import org.springframework.data.jpa.repository.Lock;
 @Where(clause = "is_active = true")
 @IdClass(CommentId.class)
 public class Comment extends BaseEntity {
+
     @Id
     private long id;
 

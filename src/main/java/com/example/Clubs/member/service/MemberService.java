@@ -14,7 +14,7 @@ public interface MemberService {
     CreateMemberResponse createMember(CreateMemberRequest request);
 
     // 회원 조회 (Read)
-    Optional<Member> getMemberById(Long id);
+    Member getMemberById(Long id);
     List<Member> getAllMembers();
 
     // 회원 정보 수정 (Update)

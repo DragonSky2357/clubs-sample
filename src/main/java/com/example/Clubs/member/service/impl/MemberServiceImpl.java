@@ -3,6 +3,8 @@ package com.example.Clubs.member.service.impl;
 import com.example.Clubs.member.dto.request.CreateMemberRequest;
 import com.example.Clubs.member.dto.response.CreateMemberResponse;
 import com.example.Clubs.member.entity.Member;
+import com.example.Clubs.member.exception.MemberErrorCode;
+import com.example.Clubs.member.exception.MemberException;
 import com.example.Clubs.member.repository.MemberRepository;
 import com.example.Clubs.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +33,11 @@ public class MemberServiceImpl implements MemberService {
         return CreateMemberResponse.from(saveMember);
     }
 
+
     @Override
-    public Optional<Member> getMemberById(Long id) {
-        return Optional.empty();
+    public Member getMemberById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOTFOUND_ERROR));
     }
 
     @Override

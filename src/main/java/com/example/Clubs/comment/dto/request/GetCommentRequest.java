@@ -1,14 +1,12 @@
 package com.example.Clubs.comment.dto.request;
 
-import com.example.Clubs.comment.entity.Comment;
 import com.example.Clubs.comment.entity.CommentType;
-import com.example.Clubs.config.security.entity.User;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class GetCommentRequest {
     @NotNull(message = "댓글 유형은 필수입니다.")
     private CommentType type;

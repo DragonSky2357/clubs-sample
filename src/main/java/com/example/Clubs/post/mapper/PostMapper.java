@@ -1,10 +1,9 @@
 package com.example.Clubs.post.mapper;
 
-import com.example.Clubs.post.dto.response.GetPostResponse;
+import com.example.Clubs.config.security.entity.User;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface PostMapper {
-    GetPostResponse getPost(@Param("postId") long postId);
+    User selectUserById(Long id);
 }

@@ -4,10 +4,10 @@ import com.example.Clubs.common.entity.BaseEntity;
 import com.example.Clubs.member.entity.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.data.jpa.repository.Lock;
 
 @Entity(name = "comment")
 @Getter
@@ -38,8 +38,11 @@ public class Comment extends BaseEntity {
     private long target;
 
     @Column
-    private Long partent;
+    private Long parent;
 
     @Column
     private boolean isActive;
+
+    public void updateContent(@NotBlank String content) {
+    }
 }

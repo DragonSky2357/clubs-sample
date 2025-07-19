@@ -1,10 +1,13 @@
 package com.example.Clubs.comment.entity;
 
+import javax.management.Notification;
+
 public enum CommentType {
     POST("POST"),
     CLUB("CLUB"),
     REPLY("REPLY"),
-    QUESTION("QUESTION");
+    QUESTION("QUESTION"),
+    Notification("Notification");
 
     private final String type;
 

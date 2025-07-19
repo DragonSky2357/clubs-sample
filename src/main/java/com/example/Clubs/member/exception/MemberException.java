@@ -9,4 +9,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MemberException extends CustomBaseException {
     private final MemberErrorCode errorCode;
+
+    public MemberException(MemberErrorCode errorCode) {
+        super();
+        this.errorCode = errorCode;
+    }
 }

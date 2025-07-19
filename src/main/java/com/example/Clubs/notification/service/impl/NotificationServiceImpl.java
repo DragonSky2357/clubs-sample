@@ -25,18 +25,20 @@ public class NotificationServiceImpl implements NotificationService {
     Member member = memberRepository.findById(request.getMember_id())
             .orElseThrow(() -> new RuntimeException("회원이 없습니다 : " + request.getMember_id()));
 
-    return CheckNotificationResponse.from(
-            notificationRepository.save(request.toEntity(member))
-    );
+    Notification notification =  request.toEntity(member);
+
+    Notification result = notificationRepository.save(notification);
+
+    return CheckNotificationResponse.from(result);
 
   }
 
   @Override
   public CheckNotificationResponse selectNotification(long notification_id) {
-    return CheckNotificationResponse.from(
-            notificationRepository.findById(notification_id)
-                    .orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notification_id))
-    );
+
+    Notification notification = notificationRepository.findById(notification_id).orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notification_id));
+
+    return CheckNotificationResponse.from(notification);
   }
 
   @Override
@@ -55,6 +57,8 @@ public class NotificationServiceImpl implements NotificationService {
     Member member = memberRepository.findById(request.getMember_id())
             .orElseThrow(() -> new RuntimeException("회원이 없습니다: " + request.getMember_id()));
 
+    if(request.getMember_id() != member.getId()) throw(new RuntimeException("권한이 없습니다: " + request.getMember_id()));
+
     Notification newNotification = Notification.builder()
             .notification_id(notification_id)
             .member(member)
@@ -66,8 +70,10 @@ public class NotificationServiceImpl implements NotificationService {
 
   @Override
   public void deleteNotification(long notification_id) {
+
     Notification notification = notificationRepository.findById(notification_id)
             .orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notification_id));
+
     notificationRepository.delete(notification);
   }
 }

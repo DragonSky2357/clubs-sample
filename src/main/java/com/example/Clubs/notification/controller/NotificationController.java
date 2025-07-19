@@ -1,10 +1,12 @@
 package com.example.Clubs.notification.controller;
 
+import com.example.Clubs.config.security.entity.User;
 import com.example.Clubs.notification.dto.request.CheckNotificationRequest;
 import com.example.Clubs.notification.dto.response.CheckNotificationResponse;
 import com.example.Clubs.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,14 +37,15 @@ public class NotificationController {
   }
 
   // 공지 수정
-  @PutMapping("/update/{notification_id}")
+  @PutMapping("/{notification_id}")
   public CheckNotificationResponse updateNotification(@RequestBody CheckNotificationRequest request, @PathVariable long notification_id){
     return notificationService.updateNotification(request, notification_id);
   }
 
   // 공지 삭제
-  @DeleteMapping("/delete/{notification_id}")
-  public ResponseEntity deleteNotification(@PathVariable long notification_id){
+  @DeleteMapping("/{notification_id}")
+  public ResponseEntity deleteNotification(@PathVariable long notification_id, @AuthenticationPrincipal User user){
+    System.out.println(user.getId());
     notificationService.deleteNotification(notification_id);
     return ResponseEntity.ok().build();
   }

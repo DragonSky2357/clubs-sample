@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login","/auth/v1/signup").permitAll()
+                        .requestMatchers("/auth/login","/auth/v1/signup", "/notification/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtLoginFilter(authenticationManager(), jwtUtil), UsernamePasswordAuthenticationFilter.class)

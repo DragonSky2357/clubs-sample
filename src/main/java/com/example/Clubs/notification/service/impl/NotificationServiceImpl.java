@@ -3,6 +3,8 @@ package com.example.Clubs.notification.service.impl;
 import com.example.Clubs.member.entity.Member;
 import com.example.Clubs.member.repository.MemberRepository;
 import com.example.Clubs.notification.dto.request.CheckNotificationRequest;
+import com.example.Clubs.notification.dto.request.CreateNotificationRequest;
+import com.example.Clubs.notification.dto.request.UpdateNotificationRequest;
 import com.example.Clubs.notification.dto.response.CheckNotificationResponse;
 import com.example.Clubs.notification.entity.Notification;
 import com.example.Clubs.notification.repository.NotificationRepository;
@@ -19,11 +21,12 @@ public class NotificationServiceImpl implements NotificationService {
   private final MemberRepository memberRepository;
   private final NotificationRepository notificationRepository;
 
-  @Override
-  public CheckNotificationResponse createNotification(CheckNotificationRequest request) {
 
-    Member member = memberRepository.findById(request.getMember_id())
-            .orElseThrow(() -> new RuntimeException("회원이 없습니다 : " + request.getMember_id()));
+  @Override
+  public CheckNotificationResponse createNotification(CreateNotificationRequest request, long member_id) {
+
+    Member member = memberRepository.findById(member_id)
+            .orElseThrow(() -> new RuntimeException("회원이 없습니다 : " + member_id));
 
     Notification notification =  request.toEntity(member);
 
@@ -50,14 +53,15 @@ public class NotificationServiceImpl implements NotificationService {
   }
 
   @Override
-  public CheckNotificationResponse updateNotification(CheckNotificationRequest request, long notification_id) {
+  public CheckNotificationResponse updateNotification(UpdateNotificationRequest request, long member_id,long notification_id) {
+
     notificationRepository.findById(notification_id)
             .orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notification_id));
 
-    Member member = memberRepository.findById(request.getMember_id())
-            .orElseThrow(() -> new RuntimeException("회원이 없습니다: " + request.getMember_id()));
+    Member member = memberRepository.findById(member_id)
+            .orElseThrow(() -> new RuntimeException("회원이 없습니다: " + member_id));
 
-    if(request.getMember_id() != member.getId()) throw(new RuntimeException("권한이 없습니다: " + request.getMember_id()));
+    if(member_id != member.getId()) throw(new RuntimeException("권한이 없습니다: " + member_id));
 
     Notification newNotification = Notification.builder()
             .notification_id(notification_id)
@@ -69,10 +73,13 @@ public class NotificationServiceImpl implements NotificationService {
   }
 
   @Override
-  public void deleteNotification(long notification_id) {
+  public void deleteNotification(long notification_id, long member_id) {
 
     Notification notification = notificationRepository.findById(notification_id)
             .orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notification_id));
+
+    if(notification.getMember().getId() != member_id) throw (new RuntimeException("권한이 없습니다: " + member_id));
+
 
     notificationRepository.delete(notification);
   }

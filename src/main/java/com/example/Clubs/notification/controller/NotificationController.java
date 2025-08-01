@@ -2,6 +2,8 @@ package com.example.Clubs.notification.controller;
 
 import com.example.Clubs.config.security.entity.User;
 import com.example.Clubs.notification.dto.request.CheckNotificationRequest;
+import com.example.Clubs.notification.dto.request.CreateNotificationRequest;
+import com.example.Clubs.notification.dto.request.UpdateNotificationRequest;
 import com.example.Clubs.notification.dto.response.CheckNotificationResponse;
 import com.example.Clubs.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +20,10 @@ public class NotificationController {
 
   private final NotificationService notificationService;
 
-  // 공지 생성
+  // 공지 생성(메시지, 유저)
   @PostMapping("/create")
-  public CheckNotificationResponse createNotification(@RequestBody CheckNotificationRequest request){
-    return notificationService.createNotification(request);
+  public CheckNotificationResponse createNotification(@RequestBody CreateNotificationRequest request, @AuthenticationPrincipal User user){
+    return notificationService.createNotification(request, user.getId());
   }
 
   // 공지 조회
@@ -38,15 +40,14 @@ public class NotificationController {
 
   // 공지 수정
   @PutMapping("/{notification_id}")
-  public CheckNotificationResponse updateNotification(@RequestBody CheckNotificationRequest request, @PathVariable long notification_id){
-    return notificationService.updateNotification(request, notification_id);
+  public CheckNotificationResponse updateNotification(@RequestBody UpdateNotificationRequest request, @AuthenticationPrincipal User user, @PathVariable long notification_id){
+    return notificationService.updateNotification(request, user.getId(), notification_id);
   }
 
   // 공지 삭제
   @DeleteMapping("/{notification_id}")
   public ResponseEntity deleteNotification(@PathVariable long notification_id, @AuthenticationPrincipal User user){
-    System.out.println(user.getId());
-    notificationService.deleteNotification(notification_id);
+    notificationService.deleteNotification(notification_id, user.getId());
     return ResponseEntity.ok().build();
   }
 

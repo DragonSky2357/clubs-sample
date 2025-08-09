@@ -2,6 +2,7 @@ package com.example.Clubs.club.dto.request;
 
 import com.example.Clubs.club.entity.Club;
 import com.example.Clubs.member.entity.Member;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,14 +10,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CreateClubRequest {
 
+    @NotBlank(message = "title은 비어있을 수 없습니다.")
     private String title;
+    @NotBlank(message = "description은 비어있을 수 없습니다.")
     private String description;
 
-    public Club toEntity(Member member){
-        return Club.builder()
-                .owner(member)
-                .title(this.title)
-                .description(this.description)
-                .build();
-    }
 }

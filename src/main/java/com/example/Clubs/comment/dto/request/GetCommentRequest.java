@@ -13,4 +13,8 @@ public class GetCommentRequest {
 
     @NotNull(message = "댓글 게시물을 지정해주세요.")
     private long target;
+
+    // 페이징을 위한 필드(설정 변경 가능)
+    private int page = 0;
+    private int size = 20;
 }

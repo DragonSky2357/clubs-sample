@@ -1,4 +1,4 @@
-package com.example.Clubs.comment.service.Impl;
+package com.example.Clubs.comment.service.impl;
 
 import com.example.Clubs.comment.dto.request.CreateCommentRequest;
 import com.example.Clubs.comment.dto.request.GetCommentRequest;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
-public class CommentServiceImpl implements CommentService {
+public class CommentServiceimpl implements CommentService {
 
     private final CommentRepository commentRepository;
 

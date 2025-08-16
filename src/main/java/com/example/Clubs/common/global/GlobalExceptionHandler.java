@@ -1,7 +1,5 @@
 package com.example.Clubs.common.global;
 
-import com.example.Clubs.post.exception.PostErrorCode;
-import com.example.Clubs.post.exception.PostException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,13 +21,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CustomBaseException.class)
-    public ResponseEntity handlePostException(PostException postException){
-        PostErrorCode errorCode = postException.getErrorCode();
+    public ResponseEntity handlePostException(CustomBaseException e) {
+        CommonException errorCode = e.getErrorCode();
 
         return ResponseEntity.status(errorCode.getStatus())
-                .body(commonExceptionResponse(postException.getErrorCode()));
+                .body(commonExceptionResponse(e.getErrorCode()));
     }
-
 
 
     private Map<String, Object> commonExceptionResponse(CommonException commonException) {

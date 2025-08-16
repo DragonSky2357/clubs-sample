@@ -1,12 +1,12 @@
 package com.example.Clubs.club.service.impl;
 
-import com.example.Clubs.club.dto.ClubDtoConvertor;
 import com.example.Clubs.club.dto.request.CreateClubRequest;
 import com.example.Clubs.club.dto.request.UpdateClubRequest;
 import com.example.Clubs.club.dto.response.ClubResponse;
 import com.example.Clubs.club.entity.Club;
 import com.example.Clubs.club.exception.ClubErrorCode;
 import com.example.Clubs.club.exception.ClubException;
+import com.example.Clubs.club.mapper.ClubMapper;
 import com.example.Clubs.club.repository.ClubRepository;
 import com.example.Clubs.club.service.ClubService;
 import com.example.Clubs.member.entity.Member;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.example.Clubs.club.dto.ClubDtoConvertor.CreateClubRequestToEntity;
-import static com.example.Clubs.club.dto.ClubDtoConvertor.entityToResponseDto;
 
 @Slf4j
 @Service
@@ -27,6 +26,7 @@ import static com.example.Clubs.club.dto.ClubDtoConvertor.entityToResponseDto;
 public class ClubServiceImpl implements ClubService {
 
     private final ClubRepository clubRepository;
+    private final ClubMapper clubMapper;
     private final MemberServiceImpl memberService;
 
     /*
@@ -39,9 +39,14 @@ public class ClubServiceImpl implements ClubService {
      */
     @Override
     public ClubResponse GetClubById(Long clubId) {
-        Club entity = findClubById(clubId);
-        log.info("[Club] club 조회됨 id -> {}", clubId);
-        return entityToResponseDto(entity);
+//        Club entity = findClubById(clubId);
+//        log.info("[Club] club 조회됨 id -> {}", clubId);
+//        return entityToResponseDto(entity);
+        ClubResponse response = clubMapper.getClubByIdWithActiveStatus(clubId, true);
+        if (response == null) {
+            throw new ClubException(ClubErrorCode.CLUB_NOTFOUND_ERROR);
+        }
+        return response;
     }
 
     /*
@@ -54,15 +59,24 @@ public class ClubServiceImpl implements ClubService {
      */
     @Override
     public List<ClubResponse> GetClubByOwnerId(Long requestUserId) {
-        List<Club> clubs = clubRepository.findByOwnerId(requestUserId);
-        if (clubs == null || clubs.isEmpty()) {
+//        List<Club> clubs = clubRepository.findByOwnerId(requestUserId);
+//        if (clubs == null || clubs.isEmpty()) {
+//            log.warn("[Club] id -> {} 유저 소유 Club 없음", requestUserId);
+//            throw new ClubException(ClubErrorCode.CLUB_NOTFOUND_ERROR);
+//        }
+//        log.info("[Club] id -> {} 유저 소유 Club 조회 됨", requestUserId);
+//        return clubs.stream()
+//                .map(ClubDtoConvertor::entityToResponseDto)
+//                .toList();
+
+        List<ClubResponse> clubList = clubMapper.getClubByOwnerIdWithActiveStatus(requestUserId, true);
+        if (clubList == null || clubList.isEmpty()) {
             log.warn("[Club] id -> {} 유저 소유 Club 없음", requestUserId);
             throw new ClubException(ClubErrorCode.CLUB_NOTFOUND_ERROR);
         }
         log.info("[Club] id -> {} 유저 소유 Club 조회 됨", requestUserId);
-        return clubs.stream()
-                .map(ClubDtoConvertor::entityToResponseDto)
-                .toList();
+        return clubList;
+
     }
 
 

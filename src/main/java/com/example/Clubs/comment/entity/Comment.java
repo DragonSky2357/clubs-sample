@@ -19,7 +19,7 @@ import org.hibernate.annotations.Where;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE comment SET is_active = false WHERE id = ? AND type = ?")
+@SQLDelete(sql = "UPDATE comment SET is_active = false WHERE id = ?")
 @SQLRestriction("is_active = true")
 @IdClass(CommentId.class)
 public class Comment extends BaseEntity {
@@ -33,14 +33,11 @@ public class Comment extends BaseEntity {
     @Column(nullable = false)
     private CommentType type;
 
-    @NotBlank(message = "댓글 내용은 필수입니다")
-    @Size(max = 1000, message = "댓글은 1000자를 초과할 수 없습니다")
     @Column(nullable = false, length = 1000)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
-    @JsonIgnore
     @NotNull
     private Member member;
 
@@ -50,18 +47,12 @@ public class Comment extends BaseEntity {
     @Column(name = "parent_id")
     private Long parent;
 
-    @Builder.Default
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
 
     // 댓글 내용 수정 메소드
-    public void updateContent(@NotBlank String content) {
+    public void updateContent(String content) {
         this.content = content;
-    }
-
-    // 댓글 삭제 메소드(소프트 삭제)
-    public void delete() {
-        this.isActive = false;
     }
 
     // 대댓글인지 확인하는 메소드

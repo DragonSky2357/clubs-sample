@@ -5,7 +5,7 @@ public enum CommentType {
     CLUB("CLUB"),
     REPLY("REPLY"),
     QUESTION("QUESTION"),
-    Notification("NOTIFICATION");
+    NOTIFICATION("NOTIFICATION");
 
     private final String type;
 

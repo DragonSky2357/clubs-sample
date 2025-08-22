@@ -2,10 +2,9 @@ package com.example.Clubs.notification.service.impl;
 
 import com.example.Clubs.member.entity.Member;
 import com.example.Clubs.member.repository.MemberRepository;
-import com.example.Clubs.notification.dto.request.CheckNotificationRequest;
 import com.example.Clubs.notification.dto.request.CreateNotificationRequest;
 import com.example.Clubs.notification.dto.request.UpdateNotificationRequest;
-import com.example.Clubs.notification.dto.response.CheckNotificationResponse;
+import com.example.Clubs.notification.dto.response.ReadNotificationResponse;
 import com.example.Clubs.notification.entity.Notification;
 import com.example.Clubs.notification.repository.NotificationRepository;
 import com.example.Clubs.notification.service.NotificationService;
@@ -23,62 +22,63 @@ public class NotificationServiceImpl implements NotificationService {
 
 
   @Override
-  public CheckNotificationResponse createNotification(CreateNotificationRequest request, long member_id) {
+  public ReadNotificationResponse createNotification(CreateNotificationRequest request, long memberId) {
 
-    Member member = memberRepository.findById(member_id)
-            .orElseThrow(() -> new RuntimeException("회원이 없습니다 : " + member_id));
+    Member member = memberRepository.findById(memberId)
+            .orElseThrow(() -> new RuntimeException("회원이 없습니다 : " + memberId));
 
     Notification notification =  request.toEntity(member);
 
     Notification result = notificationRepository.save(notification);
 
-    return CheckNotificationResponse.from(result);
+    return ReadNotificationResponse.from(result);
 
   }
 
   @Override
-  public CheckNotificationResponse selectNotification(long notification_id) {
+  public ReadNotificationResponse selectNotification(long notificationId) {
 
-    Notification notification = notificationRepository.findById(notification_id).orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notification_id));
+    Notification notification = notificationRepository.findById(notificationId).orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notificationId));
 
-    return CheckNotificationResponse.from(notification);
+    return ReadNotificationResponse.from(notification);
   }
 
   @Override
-  public List<CheckNotificationResponse> getAllNotifications() {
+  public List<ReadNotificationResponse> getAllNotifications() {
     return notificationRepository.findAll()
             .stream()
-            .map(CheckNotificationResponse::from)
+            .map(ReadNotificationResponse::from)
             .toList();
   }
 
   @Override
-  public CheckNotificationResponse updateNotification(UpdateNotificationRequest request, long member_id,long notification_id) {
+  public ReadNotificationResponse updateNotification(UpdateNotificationRequest request, long memberId, long notificationId) {
 
-    notificationRepository.findById(notification_id)
-            .orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notification_id));
+    notificationRepository.findById(notificationId)
+            .orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notificationId));
 
-    Member member = memberRepository.findById(member_id)
-            .orElseThrow(() -> new RuntimeException("회원이 없습니다: " + member_id));
+    Member member = memberRepository.findById(memberId)
+            .orElseThrow(() -> new RuntimeException("회원이 없습니다: " + memberId));
 
-    if(member_id != member.getId()) throw(new RuntimeException("권한이 없습니다: " + member_id));
+    if(memberId != member.getId()) throw(new RuntimeException("권한이 없습니다: " + memberId));
 
     Notification newNotification = Notification.builder()
-            .notification_id(notification_id)
+            .id(notificationId)
             .member(member)
             .message(request.getMessage())
+            .isActive(true)
             .build();
 
-    return CheckNotificationResponse.from(notificationRepository.save(newNotification));
+    return ReadNotificationResponse.from(notificationRepository.save(newNotification));
   }
 
   @Override
-  public void deleteNotification(long notification_id, long member_id) {
+  public void deleteNotification(long notificationId, long memberId) {
 
-    Notification notification = notificationRepository.findById(notification_id)
-            .orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notification_id));
+    Notification notification = notificationRepository.findById(notificationId)
+            .orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notificationId));
 
-    if(notification.getMember().getId() != member_id) throw (new RuntimeException("권한이 없습니다: " + member_id));
+    if(notification.getMember().getId() != memberId) throw (new RuntimeException("권한이 없습니다: " + memberId));
 
 
     notificationRepository.delete(notification);

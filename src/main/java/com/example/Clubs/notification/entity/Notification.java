@@ -5,6 +5,8 @@ import com.example.Clubs.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
@@ -13,11 +15,13 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE notification SET is_active = false WHERE id = ?")
+@Where(clause = "is_active = true")
 public class Notification{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long notification_id;
+  private long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id", nullable = false)
@@ -26,6 +30,9 @@ public class Notification{
 
   @Column(nullable = false, columnDefinition = "TEXT")
   private String message;
+
+  @Column(name = "is_active")
+  private Boolean isActive;
 
   @CreationTimestamp
   @Column(nullable = false, updatable = false)

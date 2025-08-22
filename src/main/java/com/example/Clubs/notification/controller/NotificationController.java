@@ -1,10 +1,9 @@
 package com.example.Clubs.notification.controller;
 
 import com.example.Clubs.config.security.entity.User;
-import com.example.Clubs.notification.dto.request.CheckNotificationRequest;
 import com.example.Clubs.notification.dto.request.CreateNotificationRequest;
 import com.example.Clubs.notification.dto.request.UpdateNotificationRequest;
-import com.example.Clubs.notification.dto.response.CheckNotificationResponse;
+import com.example.Clubs.notification.dto.response.ReadNotificationResponse;
 import com.example.Clubs.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,33 +20,35 @@ public class NotificationController {
   private final NotificationService notificationService;
 
   // 공지 생성(메시지, 유저)
-  @PostMapping("/create")
-  public CheckNotificationResponse createNotification(@RequestBody CreateNotificationRequest request, @AuthenticationPrincipal User user){
-    return notificationService.createNotification(request, user.getId());
+  @PostMapping("/v1")
+  public ResponseEntity createNotification(@RequestBody CreateNotificationRequest request, @AuthenticationPrincipal User user){
+    notificationService.createNotification(request, user.getId());
+    return ResponseEntity.ok().build();
   }
 
   // 공지 조회
-  @GetMapping("/check/{notification_id}")
-  public CheckNotificationResponse checkNotification(@PathVariable long notification_id){
-    return notificationService.selectNotification(notification_id);
+  @GetMapping("/v1/{notificationId}")
+  public ReadNotificationResponse readNotification(@PathVariable long notificationId){
+    return notificationService.selectNotification(notificationId);
   }
 
   // 전체 공지 조회
-  @GetMapping("/check/all")
-  public List<CheckNotificationResponse> getAllNotifications() {
+  @GetMapping("/v1/all")
+  public List<ReadNotificationResponse> getAllNotifications() {
     return notificationService.getAllNotifications();
   }
 
   // 공지 수정
-  @PutMapping("/{notification_id}")
-  public CheckNotificationResponse updateNotification(@RequestBody UpdateNotificationRequest request, @AuthenticationPrincipal User user, @PathVariable long notification_id){
-    return notificationService.updateNotification(request, user.getId(), notification_id);
+  @PutMapping("/v1/{notificationId}")
+  public ResponseEntity updateNotification(@RequestBody UpdateNotificationRequest request, @AuthenticationPrincipal User user, @PathVariable long notificationId){
+    notificationService.updateNotification(request, user.getId(), notificationId);
+    return ResponseEntity.ok().build();
   }
 
   // 공지 삭제
-  @DeleteMapping("/{notification_id}")
-  public ResponseEntity deleteNotification(@PathVariable long notification_id, @AuthenticationPrincipal User user){
-    notificationService.deleteNotification(notification_id, user.getId());
+  @DeleteMapping("/v1/{notificationId}")
+  public ResponseEntity deleteNotification(@PathVariable long notificationId, @AuthenticationPrincipal User user){
+    notificationService.deleteNotification(notificationId, user.getId());
     return ResponseEntity.ok().build();
   }
 

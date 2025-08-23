@@ -6,28 +6,32 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
-      database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
       hibernate:
-        ddl-auto: update
-      show-sql: true
+        format_sql: true          # 예쁘게
+        highlight_sql: true       # 가독성 ↑ (터미널 컬러)
 
-  mybatis:
-    mapper-locations: classpath:mapper/**/*.xml
-    type-aliases-package: com.example.clubs.*
-    configuration:
-      map-underscore-to-camel-case: true
 
-  logging:
-    level:
-  #    org.hibernate.SQL: debug
-  #    org.hibernate.type.descriptor.sql.BasicBinder: trace
-      org.mybatis: DEBUG
-      org.mybatis.spring.SqlSessionTemplate: DEBUG
-      org.apache.ibatis: DEBUG
-      com.example.Clubs: DEBUG  # ← 본인 프로젝트 패키지에 맞게
 
 jwt:
   secret-key: "U3VwZXJTZWNyZXRLZXlGb3JITUFDMjU2"
   refresh-secret-key: "UmVmcmVzaFNlY3JldEtleUZvckhTQTI1Ng=="
   access-token-expiration: 90000000  # 15분 (밀리초)
   refresh-token-expiration: 60480000000  # 7일 (밀리초)
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.example.Clubs.*
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    org.mybatis: DEBUG
+    org.mybatis.spring.SqlSessionTemplate: DEBUG
+    org.apache.ibatis: DEBUG
+    com.example.Clubs: DEBUG  # ← 본인 프로젝트 패키지에 맞게

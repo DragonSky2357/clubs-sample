@@ -33,6 +33,14 @@ public class Club extends BaseEntity {
 
     private boolean isActive;
 
+    public void softDelete(){
+        this.isActive = false;
+    }
+
+    public void storeEntity(){
+        this.isActive = true;
+    }
+
     public Club update(UpdateClubRequest request){
         if (request.getTitle() != null && !request.getTitle().isBlank()) {
             this.title = request.getTitle();

@@ -1,11 +1,11 @@
 package com.example.Clubs.member.exception;
 
-import com.example.Clubs.common.global.CommonException;
+import com.example.Clubs.common.global.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
-public enum MemberErrorCode implements CommonException {
+public enum MemberErrorCode implements ErrorCode {
 
     MEMBER_CREATE_ERROR(HttpStatus.BAD_REQUEST,2000,"유저 생성 오류입니다."),
     MEMBER_NOTFOUND_ERROR(HttpStatus.BAD_REQUEST,2010,"존재하지 않은 유저입니다."),
@@ -15,10 +15,9 @@ public enum MemberErrorCode implements CommonException {
     private final int errorCode;
     private final String message;
 
+
     @Override
-    public int getStatus() {
-        return status.value();
-    }
+    public int getCode() {return status.value();}
 
     @Override
     public int getErrorCode() {

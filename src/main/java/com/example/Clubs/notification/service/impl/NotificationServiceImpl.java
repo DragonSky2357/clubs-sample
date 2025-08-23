@@ -22,7 +22,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 
   @Override
-  public ReadNotificationResponse createNotification(CreateNotificationRequest request, long memberId) {
+  public void createNotification(CreateNotificationRequest request, long memberId) {
 
     Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new RuntimeException("회원이 없습니다 : " + memberId));
@@ -31,7 +31,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     Notification result = notificationRepository.save(notification);
 
-    return ReadNotificationResponse.from(result);
+    ReadNotificationResponse.from(result);
 
   }
 
@@ -52,9 +52,9 @@ public class NotificationServiceImpl implements NotificationService {
   }
 
   @Override
-  public ReadNotificationResponse updateNotification(UpdateNotificationRequest request, long memberId, long notificationId) {
+  public void updateNotification(UpdateNotificationRequest request, long memberId, long notificationId) {
 
-    notificationRepository.findById(notificationId)
+     Notification notification = notificationRepository.findById(notificationId)
             .orElseThrow(() -> new RuntimeException("알림을 찾을 수 없습니다: " + notificationId));
 
     Member member = memberRepository.findById(memberId)
@@ -62,14 +62,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     if(memberId != member.getId()) throw(new RuntimeException("권한이 없습니다: " + memberId));
 
-    Notification newNotification = Notification.builder()
-            .id(notificationId)
-            .member(member)
-            .message(request.getMessage())
-            .isActive(true)
-            .build();
 
-    return ReadNotificationResponse.from(notificationRepository.save(newNotification));
+    ReadNotificationResponse.from(notificationRepository.save(notification));
   }
 
   @Override

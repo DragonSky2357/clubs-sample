@@ -11,7 +11,7 @@ public interface NotificationService {
 
 
   // 공고 생성(Create)
-  ReadNotificationResponse createNotification(CreateNotificationRequest request, long memberId);
+  void createNotification(CreateNotificationRequest request, long memberId);
 
   // 공고 조회(Select)
   ReadNotificationResponse selectNotification(long notificationId);
@@ -20,7 +20,7 @@ public interface NotificationService {
   List<ReadNotificationResponse> getAllNotifications();
 
   // 공고 수정
-  ReadNotificationResponse updateNotification(UpdateNotificationRequest request, long memberId, long notificationId);
+  void updateNotification(UpdateNotificationRequest request, long memberId, long notificationId);
 
   // 공고 삭제
   void deleteNotification (long notificationId, long memberId);

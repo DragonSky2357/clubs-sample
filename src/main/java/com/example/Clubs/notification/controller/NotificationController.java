@@ -28,7 +28,7 @@ public class NotificationController {
 
   // 공지 조회
   @GetMapping("/v1/{notificationId}")
-  public ReadNotificationResponse readNotification(@PathVariable long notificationId){
+  public ReadNotificationResponse readNotification(@PathVariable Long notificationId){
     return notificationService.selectNotification(notificationId);
   }
 
@@ -40,14 +40,14 @@ public class NotificationController {
 
   // 공지 수정
   @PutMapping("/v1/{notificationId}")
-  public ResponseEntity updateNotification(@RequestBody UpdateNotificationRequest request, @AuthenticationPrincipal User user, @PathVariable long notificationId){
+  public ResponseEntity updateNotification(@RequestBody UpdateNotificationRequest request, @AuthenticationPrincipal User user, @PathVariable Long notificationId){
     notificationService.updateNotification(request, user.getId(), notificationId);
     return ResponseEntity.ok().build();
   }
 
   // 공지 삭제
   @DeleteMapping("/v1/{notificationId}")
-  public ResponseEntity deleteNotification(@PathVariable long notificationId, @AuthenticationPrincipal User user){
+  public ResponseEntity deleteNotification(@PathVariable Long notificationId, @AuthenticationPrincipal User user){
     notificationService.deleteNotification(notificationId, user.getId());
     return ResponseEntity.ok().build();
   }

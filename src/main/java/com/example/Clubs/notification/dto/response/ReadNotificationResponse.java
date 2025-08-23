@@ -10,14 +10,14 @@ import java.time.LocalDateTime;
 @Builder
 public class ReadNotificationResponse {
   private long id;
-  private long member_id;
+  private long memberId;
   private  String message;
   private LocalDateTime created_at;
 
   public static ReadNotificationResponse from(Notification notification) {
     return ReadNotificationResponse.builder()
             .id(notification.getId())
-            .member_id(notification.getMember().getId())
+            .memberId(notification.getMember().getId())
             .message(notification.getMessage())
             .created_at(notification.getCreated_at())
             .build();

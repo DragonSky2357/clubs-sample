@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE notification SET is_active = false WHERE id = ?")
 @Where(clause = "is_active = true")
-public class Notification{
+public class Notification extends BaseEntity{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +34,5 @@ public class Notification{
   @Column(name = "is_active")
   private Boolean isActive;
 
-  @CreationTimestamp
-  @Column(nullable = false, updatable = false)
-  private LocalDateTime created_at;
 
 }

@@ -8,6 +8,7 @@ import com.example.Clubs.notification.dto.response.ReadNotificationResponse;
 import com.example.Clubs.notification.entity.Notification;
 import com.example.Clubs.notification.repository.NotificationRepository;
 import com.example.Clubs.notification.service.NotificationService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class NotificationServiceImpl implements NotificationService {
   private final MemberRepository memberRepository;
   private final NotificationRepository notificationRepository;
 
-
+  @Transactional
   @Override
   public void createNotification(CreateNotificationRequest request, long memberId) {
 
@@ -29,10 +30,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     Notification notification =  request.toEntity(member);
 
-    Notification result = notificationRepository.save(notification);
-
-    ReadNotificationResponse.from(result);
-
+    notificationRepository.save(notification);
   }
 
   @Override
@@ -51,6 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
             .toList();
   }
 
+  @Transactional
   @Override
   public void updateNotification(UpdateNotificationRequest request, long memberId, long notificationId) {
 
@@ -62,10 +61,10 @@ public class NotificationServiceImpl implements NotificationService {
 
     if(memberId != member.getId()) throw(new RuntimeException("권한이 없습니다: " + memberId));
 
-
-    ReadNotificationResponse.from(notificationRepository.save(notification));
+    notificationRepository.save(notification);
   }
 
+  @Transactional
   @Override
   public void deleteNotification(long notificationId, long memberId) {
 

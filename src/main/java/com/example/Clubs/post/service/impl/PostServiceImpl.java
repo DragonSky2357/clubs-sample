@@ -46,9 +46,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public void updatePost(long postId, UpdatePostReqeust request) {
+    public void updatePost(long postId, UpdatePostReqeust reqeust) {
         Post findPost = findPost(postId);
-        Post.updatePost(findPost,request);
+        Post.updatePost(findPost,reqeust);
     }
 
     @Override

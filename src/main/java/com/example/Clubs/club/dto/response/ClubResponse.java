@@ -10,8 +10,8 @@ import lombok.Getter;
 public class ClubResponse {
 
     private long clubId;
-    private String title;
-    private String description;
-    private String ownerUserName;
+    private String clubTitle;
+    private String clubDescription;
+    private String clubOwnerUserName;
 
 }

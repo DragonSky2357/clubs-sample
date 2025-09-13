@@ -5,6 +5,7 @@ import com.example.Clubs.club.dto.request.UpdateClubRequest;
 import com.example.Clubs.club.dto.response.ClubResponse;
 import com.example.Clubs.club.service.impl.ClubServiceImpl;
 import com.example.Clubs.config.security.entity.User;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,13 +33,13 @@ public class ClubController {
     }
 
     @PostMapping("/v1/club")
-    public ResponseEntity<Void> createClub(@RequestBody CreateClubRequest request, @AuthenticationPrincipal User user){
+    public ResponseEntity<Void> createClub(@RequestBody @Valid CreateClubRequest request, @AuthenticationPrincipal User user){
         clubService.createClub(request, user.getId());
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/v1/club/{clubId}")
-    public ResponseEntity<Void> updateClub(@RequestBody UpdateClubRequest request, @PathVariable Long clubId, @AuthenticationPrincipal User owner){
+    @PutMapping("/v1/club/{clubId}")
+    public ResponseEntity<Void> updateClub(@RequestBody @Valid UpdateClubRequest request, @PathVariable Long clubId, @AuthenticationPrincipal User owner){
         clubService.updateClub(request,clubId,owner.getId());
         return ResponseEntity.ok().build();
     }

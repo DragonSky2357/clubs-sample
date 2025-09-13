@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7.2
+    container_name: redis-container
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234   # 원하는 비밀번호로 변경하세요
+      MYSQL_DATABASE: clubs          # 초기 생성할 DB
+      MYSQL_USER: test            # 사용자 계정
+      MYSQL_PASSWORD: test    # 사용자 비밀번호
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  redis-data:
+  mysql-data:

@@ -1,25 +1,30 @@
 package com.example.Clubs.comment.service;
 
+import com.example.Clubs.comment.dto.request.CreateCommentRequest;
 import com.example.Clubs.comment.dto.request.GetCommentRequest;
 import com.example.Clubs.comment.dto.request.UpdateCommentRequest;
-import com.example.Clubs.comment.dto.request.CreateCommentRequest;
 import com.example.Clubs.comment.entity.Comment;
 import com.example.Clubs.comment.entity.CommentType;
-import com.example.Clubs.config.security.entity.User;
 import com.example.Clubs.member.entity.Member;
 
 import java.util.List;
 
 public interface CommentService {
-    void createComment(CreateCommentRequest request, User member);
+    // 새 댓글 생성
+    Comment createComment(CreateCommentRequest request, Member member);
 
-    Comment getComment(CommentType commentType, long targetId, long commentId);
+    // 댓글 조회
+    Comment getComment(long commentId);
 
-    Comment getCommentByCommentType(long commnetId, CommentType commentType);
+    // ID와 타입으로 댓글 조회
+    Comment getCommentByIdAndType(long commentId, CommentType commentType);
 
+    // 조건에 따른 댓글 목록 조회
     List<Comment> getComments(GetCommentRequest request);
 
+    // 댓글 내용 수정
     void updateComment(UpdateCommentRequest request, Member member);
 
-    void deleteComment(long commentId, Member member);
+    // 댓글 삭제(소프트 삭제)
+    void deleteComment(Long commentId, CommentType commentType, Member member);
 }

@@ -18,16 +18,16 @@ public enum ClubErrorCode implements ErrorCode {
 
     @Override
     public int getCode() {
-        return 0;
+        return this.status.value();
     }
 
     @Override
     public int getErrorCode() {
-        return 0;
+        return this.errorCode;
     }
 
     @Override
     public String getMessage() {
-        return "";
+        return this.message;
     }
 }

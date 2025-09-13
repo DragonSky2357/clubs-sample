@@ -14,15 +14,15 @@
 
     <select id="getClubByIdWithActiveStatus" parameterType="map" resultType="com.example.Clubs.club.dto.response.ClubResponse">
         SELECT
-            <include refid="clubColumns"/>
+        <include refid="clubColumns"/>
         FROM club c
         INNER JOIN member m
-            ON c.owner_id = m.id
+        ON c.owner_id = m.id
         WHERE 1=1
-            AND c.id = #{clubId}
-            <if test="isActive != null">
-                AND c.is_active = #{isActive}
-            </if>
+        AND c.id = #{clubId}
+        <if test="isActive != null">
+            AND c.is_active = #{isActive}
+        </if>
     </select>
 
     <select id="getClubByOwnerIdWithActiveStatus" parameterType="map" resultType="com.example.Clubs.club.dto.response.ClubResponse">

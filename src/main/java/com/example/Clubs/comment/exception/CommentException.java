@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-public class CommentException extends CustomBaseException {
+public class CommentException extends BusinessException {
     private final CommentErrorCode errorCode;
 
     // 기본 생성자

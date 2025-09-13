@@ -25,7 +25,7 @@ public enum NotificationErrorCode implements ErrorCode {
     }
 
     @Override
-    public String getErrorCode() {return errorCode;}
+    public int getErrorCode() {return errorCode;}
 
     @Override
     public String getMessage() {return message;}

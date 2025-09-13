@@ -1,14 +1,13 @@
 package com.example.Clubs.comment.exception;
 
 import com.example.Clubs.common.global.ErrorCode;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum CommentErrorCode implements CommonException {
+public enum CommentErrorCode implements ErrorCode {
     // 댓글 조회 관련 에러 (2010번대)
     COMMENT_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, 2010, "존재하지 않는 댓글입니다."),
     COMMENT_ALREADY_DELETED_ERROR(HttpStatus.BAD_REQUEST, 2011, "이미 삭제된 댓글입니다."),

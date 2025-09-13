@@ -20,18 +20,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler(CustomBaseException.class)
-    public ResponseEntity handlePostException(CustomBaseException e) {
-        CommonException errorCode = e.getErrorCode();
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity handlePostException(BusinessException e) {
+        ErrorCode errorCode = e.getErrorCode();
 
-        return ResponseEntity.status(errorCode.getStatus())
+        return ResponseEntity.status(errorCode.getCode())
                 .body(commonExceptionResponse(e.getErrorCode()));
     }
 
 
-    private Map<String, Object> commonExceptionResponse(CommonException commonException) {
+    private Map<String, Object> commonExceptionResponse(ErrorCode commonException) {
         Map<String, Object> response = new HashMap<>();
-        response.put("status", commonException.getStatus());
+        response.put("status", commonException.getCode());
         response.put("errorCode", commonException.getErrorCode());
         response.put("message", commonException.getMessage());
         return response;

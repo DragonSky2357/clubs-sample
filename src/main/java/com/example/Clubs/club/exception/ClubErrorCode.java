@@ -1,11 +1,11 @@
 package com.example.Clubs.club.exception;
 
-import com.example.Clubs.common.global.CommonException;
+import com.example.Clubs.common.global.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
-public enum ClubErrorCode implements CommonException {
+public enum ClubErrorCode implements ErrorCode {
 
     CLUB_CREATE_ERROR(HttpStatus.BAD_REQUEST,2000,"클럽 생성 오류입니다."),
     CLUB_NOTFOUND_ERROR(HttpStatus.BAD_REQUEST,2010,"존재하지 않은 클럽입니다."),
@@ -15,18 +15,19 @@ public enum ClubErrorCode implements CommonException {
     private final int errorCode;
     private final String message;
 
+
     @Override
-    public int getStatus() {
-        return status.value();
+    public int getCode() {
+        return 0;
     }
 
     @Override
     public int getErrorCode() {
-        return errorCode;
+        return 0;
     }
 
     @Override
     public String getMessage() {
-        return message;
+        return "";
     }
 }

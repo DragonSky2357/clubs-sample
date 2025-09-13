@@ -1,12 +1,16 @@
 package com.example.Clubs.member.exception;
 
-import com.example.Clubs.common.global.CommonException;
-import com.example.Clubs.common.global.CustomBaseException;
+import com.example.Clubs.common.global.BusinessException;
+import com.example.Clubs.common.global.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
-public class MemberException extends CustomBaseException {
+public class MemberException extends BusinessException {
     private final MemberErrorCode errorCode;
+
+    protected MemberException(ErrorCode errorCode, MemberErrorCode errorCode1) {
+        super(errorCode);
+        this.errorCode = errorCode1;
+    }
 }

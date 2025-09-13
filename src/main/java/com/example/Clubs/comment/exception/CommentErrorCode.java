@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum CommentErrorCode implements CommonException {
+public enum CommentErrorCode implements ErrorCode {
     // 댓글 조회 관련 에러 (2010번대)
     COMMENT_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, 2010, "존재하지 않는 댓글입니다."),
     COMMENT_ALREADY_DELETED_ERROR(HttpStatus.BAD_REQUEST, 2011, "이미 삭제된 댓글입니다."),
@@ -60,7 +60,9 @@ public enum CommentErrorCode implements CommonException {
 
 
     @Override
-    public int getCode() {return status.value();}
+    public int getCode() {
+        return status.value();
+    }
 
     @Override
     public int getErrorCode() {

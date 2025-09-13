@@ -7,10 +7,7 @@ import lombok.Getter;
 
 @Getter
 public class MemberException extends BusinessException {
-    private final MemberErrorCode errorCode;
-
-    protected MemberException(ErrorCode errorCode, MemberErrorCode errorCode1) {
+    public MemberException(ErrorCode errorCode) {
         super(errorCode);
-        this.errorCode = errorCode1;
     }
 }

@@ -100,8 +100,7 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findById(commentId)
                 .orElseThrow(() -> {
                     log.error("Comment not found with CommentId: {}", commentId);
-                    return new CommentException(CommentErrorCode.COMMENT_NOT_FOUND_ERROR,
-                            "댓글 ID: " + commentId);
+                    return new CommentException(CommentErrorCode.COMMENT_NOT_FOUND_ERROR);
                 });
     }
 
@@ -109,8 +108,7 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findByIdAndType(commentId, commentType)
                 .orElseThrow(() -> {
                     log.error("Comment not found with ID: {} and Type: {}", commentId, commentType);
-                    return new CommentException(CommentErrorCode.COMMENT_NOT_FOUND_ERROR,
-                            "댓글 ID: " + commentId + ", 타입: " + commentType);
+                    return new CommentException(CommentErrorCode.COMMENT_NOT_FOUND_ERROR);
                 });
     }
 
@@ -118,8 +116,7 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findByIdAndType(commentId, commentType)
                 .orElseThrow(() -> {
                     log.error("Comment not found with ID: {} and Type: {}", commentId, commentType);
-                    return new CommentException(CommentErrorCode.COMMENT_NOT_FOUND_ERROR,
-                            "댓글 ID: " + commentId + ", 타입: " + commentType);
+                    return new CommentException(CommentErrorCode.COMMENT_NOT_FOUND_ERROR);
                 });
     }
 
@@ -139,8 +136,7 @@ public class CommentServiceImpl implements CommentService {
         if (request.getContent().length() > MAX_COMMENT_LENGTH) {
             log.error("Comment content too long. Length: {}, Max: {}",
                     request.getContent().length(), MAX_COMMENT_LENGTH);
-            throw new CommentException(CommentErrorCode.COMMENT_CONTENT_TOO_LONG_ERROR,
-                    "현재 길이: " + request.getContent().length() + "자, 최대 허용: " + MAX_COMMENT_LENGTH + "자");
+            throw new CommentException(CommentErrorCode.COMMENT_CONTENT_TOO_LONG_ERROR);
         }
 
         if (request.getType() == null) {
@@ -166,8 +162,7 @@ public class CommentServiceImpl implements CommentService {
         if (request.getContent().length() > MAX_COMMENT_LENGTH) {
             log.error("Comment content too long for update. Length: {}, Max: {}",
                     request.getContent().length(), MAX_COMMENT_LENGTH);
-            throw new CommentException(CommentErrorCode.COMMENT_CONTENT_TOO_LONG_ERROR,
-                    "현재 길이: " + request.getContent().length() + "자, 최대 허용: " + MAX_COMMENT_LENGTH + "자");
+            throw new CommentException(CommentErrorCode.COMMENT_CONTENT_TOO_LONG_ERROR);
         }
     }
 
@@ -210,8 +205,7 @@ public class CommentServiceImpl implements CommentService {
         if (comment.getMember().getId() != member.getId()) {
             log.error("Comment ownership validation failed. Comment owner: {}, Request member: {}",
                     comment.getMember().getId(), member.getId());
-            throw new CommentException(CommentErrorCode.COMMENT_AUTHOR_ONLY_ERROR,
-                    "현재 사용자: " + member.getId() + ", 작성자: " + comment.getMember().getId());
+            throw new CommentException(CommentErrorCode.COMMENT_AUTHOR_ONLY_ERROR);
         }
     }
 }

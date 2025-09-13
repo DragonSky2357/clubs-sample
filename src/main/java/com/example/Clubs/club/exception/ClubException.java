@@ -8,11 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 public class ClubException extends BusinessException {
-
-    private final ClubErrorCode errorCode;
-
-    protected ClubException(ErrorCode errorCode, ClubErrorCode errorCode1) {
+    public ClubException(ErrorCode errorCode) {
         super(errorCode);
-        this.errorCode = errorCode1;
     }
 }

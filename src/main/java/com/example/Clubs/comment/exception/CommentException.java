@@ -1,6 +1,7 @@
 package com.example.Clubs.comment.exception;
 
-import com.example.Clubs.common.global.CustomBaseException;
+import com.example.Clubs.common.global.BusinessException;
+import com.example.Clubs.common.global.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -25,5 +26,4 @@ public class CommentException extends CustomBaseException {
         super(errorCode.getMessage(), cause);
         this.errorCode = errorCode;
     }
-
 }

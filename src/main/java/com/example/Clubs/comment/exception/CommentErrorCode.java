@@ -1,6 +1,6 @@
 package com.example.Clubs.comment.exception;
 
-import com.example.Clubs.common.global.CommonException;
+import com.example.Clubs.common.global.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -58,10 +58,9 @@ public enum CommentErrorCode implements CommonException {
     private final int errorCode;
     private final String message;
 
+
     @Override
-    public int getStatus() {
-        return status.value();
-    }
+    public int getCode() {return status.value();}
 
     @Override
     public int getErrorCode() {

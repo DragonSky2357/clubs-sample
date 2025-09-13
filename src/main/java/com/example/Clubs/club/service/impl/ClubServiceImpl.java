@@ -106,6 +106,7 @@ public class ClubServiceImpl implements ClubService {
     @Override
     @Transactional
     public void updateClub(UpdateClubRequest requestDto, Long clubId, Long requestUserId) {
+
         Club savedClub = findClubById(clubId);
         Member clubOwner = savedClub.getOwner();
         log.info("[Club] club 조회됨 clubId -> {}", savedClub.getId());
@@ -131,12 +132,11 @@ public class ClubServiceImpl implements ClubService {
     public void deleteClub(Long clubId, Long requestUserId) {
         Club club = findClubById(clubId);
         Member clubOwner = club.getOwner();
-        if (club.getId() != requestUserId) {
+        if (clubOwner.getId() != requestUserId) {
             log.warn("[Club] 유저와 클럽 owner가 서로 다름 requestUserId -> {}   clubOwnerId -> {}", requestUserId, clubOwner.getId());
             throw new ClubException(ClubErrorCode.CLUB_PERMISSION_ERROR);
         }
         clubRepository.delete(club);
-        clubRepository.save(club);
         log.info("[Club] softDelete완료 id -> {}", club.getId());
     }
 
